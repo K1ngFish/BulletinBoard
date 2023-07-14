@@ -1,0 +1,62 @@
+{% extends 'flatpages/default.html' %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}
+Announcements
+{% endblock title %}
+
+{% block content %}
+    <h3>Все объявления</h3>
+    <h5>{{ time_now|date:'M d Y' }}</h5>
+
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Найти" />
+   </form>
+
+   <hr>
+   {% if announcements %}
+       <table>
+           <tr>
+               <td><b>Дата опубликования</b></td>
+               <td><b>Заголовок</b></td>
+               <td><b>Категория</b></td>
+               <td><b>Автор</b></td>
+           </tr>
+           {% for announcement in announcements %}
+           <tr>
+               <td>{{ announcement.dateCreation|date:"M d, Y"|center:"20" }}</td>
+               <td>{{ announcement.title|center:"20" }}</td>
+               <td>{{ announcement.category|center:"20" }}</td>
+               <td>{{ announcement.author|center:"20" }}</td>
+           </tr>
+           {% endfor %}
+       </table>
+   {% else %}
+       <h2>Объявлений нет!</h2>
+   {% endif %}
+
+   {# Пагинация #}
+{% if page_obj.has_previous %}
+       {# Для каждой ссылки пагинации указываем обработку через новый тег #}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+
+{% endblock content %}

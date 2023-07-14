@@ -43,9 +43,24 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'fpages',
     'announcements',
+
+    'ckeditor_uploader',
+    'ckeditor',
+
+    'django_filters',
 ]
 
 SITE_ID = 1
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': 900,
+        'image2_responsive': True,
+        'image2_maxWidth': 500,
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,3 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = 'media/'
+CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
