@@ -1,9 +1,15 @@
 {% extends 'flatpages/default.html' %}
 
+{% load static %}
+
 {% block title %}
 Announcement
 {% endblock title %}
 
 {% block content %}
-<h1>{{ announcement }}</h1>
+
+<h2>{{ announcement.title }}</h2>
+<h4>{{ announcement.dateCreation|date:"M d, Y" }}</h4>
+<p style="text-align: justify;"> {{ announcement.text|safe }} </p>
+
 {% endblock content %}
