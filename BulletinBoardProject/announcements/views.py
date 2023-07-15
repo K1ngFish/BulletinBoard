@@ -1,10 +1,11 @@
 from datetime import datetime
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .filters import AnnouncementFilter
 
 from .models import Announcement, Response
+from .forms import AnnouncementForm
 
 
 class AnnouncementsList(ListView):
@@ -20,7 +21,6 @@ class AnnouncementsList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['time_now'] = datetime.utcnow()
         context['filterset'] = self.filterset
         return context
 
@@ -28,3 +28,8 @@ class AnnouncementDetail(DetailView):
     model = Announcement
     template_name = 'announcement.html'
     content_object_name = 'announcement'
+
+class AnnouncementCreate(CreateView):
+    form_class = AnnouncementForm
+    model = Announcement
+    template_name = 'announcement_edit.html'
