@@ -16,27 +16,38 @@ Announcements
        <input type="submit" value="Найти" />
    </form>
 
+<style>
+    table.text  {
+    width:  100%; /* Ширина таблицы */
+    border-spacing: 0; /* Расстояние между ячейками */
+    }
+    table.text td {
+    width: 90%; /* Ширина ячеек */
+    vertical-align: top; /* Выравнивание по верхнему краю */
+    }
+    td.rightcol { /* Правая ячейка */
+    text-align: right; /* Выравнивание по правому краю */
+    }
+ </style>
+
    <hr>
+   {% for announcement in announcements %}
    {% if announcements %}
-       <table>
-           <tr>
-               <td><b>Дата опубликования</b></td>
-               <td><b>Заголовок</b></td>
-               <td><b>Категория</b></td>
-               <td><b>Автор</b></td>
-           </tr>
-           {% for announcement in announcements %}
-           <tr>
-               <td>{{ announcement.dateCreation|date:"M d, Y"|center:"20" }}</td>
-               <td>{{ announcement.title|center:"20" }}</td>
-               <td>{{ announcement.category|center:"20" }}</td>
-               <td>{{ announcement.author|center:"20" }}</td>
-           </tr>
-           {% endfor %}
-       </table>
-   {% else %}
+
+    <table class = "text">
+        <tr>
+        <td> <p style="text-align: left;"> <a href = "{% url 'announcement_detail' pk=announcement.id %}"> {{ announcement.title }} </a> ({{ announcement.author }}) </p> </td>
+        <!-- <td class="rightcol"><p style="text-align: justify; font-size: 12px"> {{ ... }} </p> </td> -->
+        </tr>
+    </table>
+        <p style="text-align: justify;"> {{ announcement.dateCreation|date:'d.M.Y' }} </p>
+        <p style="text-align: justify;"> {{ announcement.text|safe }} </p>
+        <p style="text-align: justify; font-size: 12px">
+        <hr>
+    {% else %}
        <h2>Объявлений нет!</h2>
    {% endif %}
+    {% endfor %}
 
    {# Пагинация #}
 {% if page_obj.has_previous %}
