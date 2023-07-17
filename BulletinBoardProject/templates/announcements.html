@@ -11,11 +11,6 @@ Announcements
     <h3>Все объявления</h3>
     <h5>{{ time_now|date:'M d Y' }}</h5>
 
-   <form action="" method="get">
-       {{ filterset.form.as_p }}
-       <input type="submit" value="Найти" />
-   </form>
-
 <style>
     table.text  {
     width:  100%; /* Ширина таблицы */
@@ -42,14 +37,20 @@ Announcements
     </table>
         <p style="text-align: justify;"> {{ announcement.dateCreation|date:'d.M.Y' }}, {{ announcement.author }} </p>
         <p style="text-align: justify;"> {{ announcement.text|safe }} </p>
+{% if perms.announcement.update_announcement or perms.announcement.delete_announcement %}
+    <p style="text-align: left; font-size: 12px; line-height: 50%">
         {% if perms.announcement.update_announcement %}
-        <p style="text-align: left; font-size: 12px; line-height: 50%">
-        <a href="{% url 'announcement_update' pk=announcement.id %}">Изменить</a> </p>
+            <span style="margin-right: 10px">
+                <a href="{% url 'announcement_update' pk=announcement.id %}">Изменить</a>
+            </span>
         {% endif %}
         {% if perms.announcement.delete_announcement %}
-        <p style="text-align: left; font-size: 12px; line-height: 50%">
-            <a href="{% url 'announcement_delete' pk=announcement.id %}">Удалить</a> </p>
+            <span>
+                <a href="{% url 'announcement_delete' pk=announcement.id %}">Удалить</a>
+            </span>
         {% endif %}
+    </p>
+{% endif %}
         <hr>
     {% else %}
        <h2>Объявлений нет!</h2>

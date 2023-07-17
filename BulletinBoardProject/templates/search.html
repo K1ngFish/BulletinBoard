@@ -1,0 +1,65 @@
+{% extends 'flatpages/default.html' %}
+{% load i18n %}
+
+{% block title %}
+Announcements
+{% endblock title %}
+
+{% block content %}
+    <h3>Поиск по сайту</h3>
+    <form action="{% url 'post_search' %}" method="get">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти" />
+    </form>
+
+    <hr>
+
+    {% if search_list %}
+        {% for announcement in search_list %}
+            <p style="text-align: left;">
+                <a href="{% url 'announcement_detail' pk=announcement.id %}">{{ announcement.title }}</a>
+            </p>
+
+            <p style="text-align: justify;">
+                {{ announcement.get_category_display }}
+            </p>
+
+            <p style="text-align: justify;">{{ announcement.dateCreation|date:'d.M.Y' }}</p>
+            <p style="text-align: justify;">Автор: {{ announcement.author }}</p>
+            <p style="text-align: justify;">{{ announcement.text|truncatewords:20|safe }}</p>
+
+            {% if user.is_authenticated and perms.announcements.update_announcement %}
+                <p style="text-align: left; font-size: 12px; line-height: 50%">
+                    <a href="{% url 'announcement_update' pk=announcement.id %}">Изменить пост</a>
+                </p>
+            {% endif %}
+            {% if user.is_authenticated and perms.announcements.delete_announcement %}
+                <p style="text-align: left; font-size: 12px; line-height: 50%">
+                    <a href="{% url 'announcement_delete' pk=announcement.id %}">Удалить пост</a>
+                </p>
+            {% endif %}
+
+            <hr>
+        {% endfor %}
+    {% else %}
+        <h2>Будьте первым, кто опубликует объявление :)</h2>
+    {% endif %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {{ page_obj.number }}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
