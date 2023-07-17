@@ -99,6 +99,8 @@ LOGIN_REDIRECT_URL = "/announcements"
 
 WSGI_APPLICATION = 'BulletinBoardProject.wsgi.application'
 
+ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 

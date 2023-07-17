@@ -44,10 +44,12 @@ Announcements
         <p style="text-align: justify;"> {{ announcement.dateCreation|date:'d.M.Y' }} </p>
         <p style="text-align: justify;"> {{ announcement.text|safe }} </p>
 <!--        <p style="text-align: justify; font-size: 12px">-->
+        {% if perms.announcements.add_announcement %}
         <p style="text-align: left; font-size: 12px; line-height: 50%">
             <a href="{% url 'announcement_update' pk=announcement.id %}">Изменить</a> </p>
         <p style="text-align: left; font-size: 12px; line-height: 50%">
             <a href="{% url 'announcement_delete' pk=announcement.id %}">Удалить</a> </p>
+        {% endif %}
         <hr>
     {% else %}
        <h2>Объявлений нет!</h2>

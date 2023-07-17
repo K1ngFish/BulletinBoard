@@ -31,7 +31,9 @@
                    </a>
                </li>
                <li class="nav-item">
+                   {% if perms.announcements.add_announcement %}
                    <a class="nav-link" href="/announcements/create/">Написать пост</a>
+                   {% endif %}
                </li>
                <li class="nav-item">
                    <a class="nav-link" href="/contacts/">Контакты</a>

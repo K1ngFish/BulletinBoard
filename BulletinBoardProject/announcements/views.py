@@ -35,13 +35,13 @@ class AnnouncementCreate(LoginRequiredMixin, CreateView):
     form_class = AnnouncementForm
     template_name = 'announcement_edit.html'
 
-class AnnouncementUpdate(UpdateView):
+class AnnouncementUpdate(LoginRequiredMixin, UpdateView):
     model = Announcement
     form_class = AnnouncementForm
     template_name = 'announcement_edit.html'
     success_url = reverse_lazy('announcement_list')
 
-class AnnouncementDelete(DeleteView):
+class AnnouncementDelete(LoginRequiredMixin, DeleteView):
     model = Announcement
     template_name = 'announcement_delete.html'
     success_url = reverse_lazy('announcement_list')
