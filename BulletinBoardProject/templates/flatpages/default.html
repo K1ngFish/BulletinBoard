@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -30,11 +31,12 @@
                        <span class="sr-only"></span>
                    </a>
                </li>
+               {% if perms.announcements.add_announcement %}
                <li class="nav-item">
-                   {% if perms.announcements.add_announcement %}
                    <a class="nav-link" href="/announcements/create/">Написать пост</a>
-                   {% endif %}
                </li>
+               {% endif %}
+
                <li class="nav-item">
                    <a class="nav-link" href="/contacts/">Контакты</a>
                </li>

@@ -42,9 +42,11 @@ Announcements
     </table>
         <p style="text-align: justify;"> {{ announcement.dateCreation|date:'d.M.Y' }}, {{ announcement.author }} </p>
         <p style="text-align: justify;"> {{ announcement.text|safe }} </p>
-        {% if perms.announcements.add_announcement %}
+        {% if perms.announcement.update_announcement %}
         <p style="text-align: left; font-size: 12px; line-height: 50%">
-            <a href="{% url 'announcement_update' pk=announcement.id %}">Изменить</a> </p>
+        <a href="{% url 'announcement_update' pk=announcement.id %}">Изменить</a> </p>
+        {% endif %}
+        {% if perms.announcement.delete_announcement %}
         <p style="text-align: left; font-size: 12px; line-height: 50%">
             <a href="{% url 'announcement_delete' pk=announcement.id %}">Удалить</a> </p>
         {% endif %}

@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -28,19 +28,22 @@ class AnnouncementDetail(DetailView):
     template_name = 'announcement.html'
     content_object_name = 'announcement'
 
-class AnnouncementCreate(LoginRequiredMixin, CreateView):
+class AnnouncementCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('announcements.add_announcement',)
     raise_exception = True
     model = Announcement
     form_class = AnnouncementForm
     template_name = 'announcement_edit.html'
 
-class AnnouncementUpdate(LoginRequiredMixin, UpdateView):
+class AnnouncementUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('announcements.update_announcement',)
     model = Announcement
     form_class = AnnouncementForm
     template_name = 'announcement_edit.html'
     success_url = reverse_lazy('announcement_list')
 
-class AnnouncementDelete(LoginRequiredMixin, DeleteView):
+class AnnouncementDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('announcements.delete_announcement',)
     model = Announcement
     template_name = 'announcement_delete.html'
     success_url = reverse_lazy('announcement_list')
