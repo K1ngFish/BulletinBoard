@@ -37,7 +37,7 @@ class Response(models.Model):
     announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
     dateCreation = models.DateTimeField(default=timezone.now)
-    text = models.CharField(max_length=64, verbose_name='Текст комментария')
+    text = models.CharField(max_length=64, verbose_name='Текст комментария', null=True)
 
     class Meta:
         verbose_name = 'Комментарий'

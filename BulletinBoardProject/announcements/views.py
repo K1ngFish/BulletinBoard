@@ -1,4 +1,4 @@
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -29,7 +29,8 @@ class AnnouncementDetail(DetailView):
     template_name = 'announcement.html'
     content_object_name = 'announcement'
 
-class AnnouncementCreate(CreateView):
+class AnnouncementCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     model = Announcement
     form_class = AnnouncementForm
     template_name = 'announcement_edit.html'
