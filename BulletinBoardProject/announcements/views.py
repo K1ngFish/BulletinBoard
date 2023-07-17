@@ -1,10 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .filters import AnnouncementFilter
-from .models import Announcement, Response
+from .models import Announcement
 from .forms import AnnouncementForm
 
 

@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from ckeditor.fields import RichTextField
 
+
 class Announcement(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
     TYPE = (('tanks', 'Танки'),

@@ -12,4 +12,11 @@ Announcement
 <h4>{{ announcement.dateCreation|date:"M d, Y" }}</h4>
 <p style="text-align: justify;"> {{ announcement.text|safe }} </p>
 
+{% if perms.announcements.change_post %}
+    <a href ="{% url 'announcement_update' pk=announcement.id %}" class ="btn btn-outline-primary btn-sm"> Изменить </a>
+{% endif %}
+{% if perms.announcements.delete_post %}
+    <a href="{% url 'announcement_delete' pk=announcement.id %}" class = "btn btn-outline-danger btn-sm"> Удалить </a>
+{% endif %}
+
 {% endblock content %}
