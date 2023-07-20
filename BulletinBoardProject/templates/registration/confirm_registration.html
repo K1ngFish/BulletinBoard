@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Registration</title>
+</head>
+<body>
+    <h1>Подтверждение аккаунта</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="confirmation_code" placeholder="Введите код подтверждения:">
+        <input type="submit" value="Подтвердить">
+    </form>
+</body>
+</html>

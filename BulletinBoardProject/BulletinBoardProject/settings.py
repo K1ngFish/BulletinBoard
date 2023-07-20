@@ -1,5 +1,6 @@
-from pathlib import Path
 import os
+from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,11 +27,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'django.contrib.sites',
     'django.contrib.flatpages',
     'fpages',
     'announcements',
+    'accounts',
 
     'ckeditor_uploader',
     'ckeditor',
@@ -95,11 +96,24 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-LOGIN_REDIRECT_URL = "/announcements"
+ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+# EMAIL_HOST_USER = "mailfortestprojects@yandex.ru"
+EMAIL_HOST_PASSWORD = "TestPassword1997"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = "mailfortestprojects@yandex.ru"
+SERVER_EMAIL = "mailfortestprojects@yandex.ru"
+
+LOGIN_REDIRECT_URL = '/announcements'
+LOGOUT_REDIRECT_URL = '/announcements'
 
 WSGI_APPLICATION = 'BulletinBoardProject.wsgi.application'
 
-ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -160,4 +174,3 @@ STATICFILES_DIRS = [
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = 'media/'
 CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
-

@@ -1,11 +1,13 @@
 {% extends "flatpages/default.html" %}
+{% load static %}
 
 {% block content %}
-
-<form method="post">
-{% csrf_token %}
+  <h2>Registration</h2>
+  <form method="post">
+    {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Sign up">
-</form>
-
+    <button type="submit">Register</button>
+  </form>
 {% endblock %}
+
+
