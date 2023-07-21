@@ -1,11 +1,13 @@
 from django import forms
-from .models import Announcement
 from django.core.exceptions import ValidationError
+
+from .models import Announcement, Response
+
 
 class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
-        fields = ['author', 'category', 'dateCreation', 'title', 'text']
+        fields = ['category', 'title', 'text']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -22,3 +24,13 @@ class AnnouncementForm(forms.ModelForm):
             )
 
         return cleaned_data
+
+class ResponseForm(forms.ModelForm):
+    class Meta:
+        model = Response
+        fields = ('text', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'

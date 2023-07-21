@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User, Group
 from django.views.generic.edit import CreateView
-from .forms import CustomSignupForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from allauth.account.views import ConfirmEmailView
+
+from .forms import CustomSignupForm
 
 class SignUp(CreateView):
     model = User

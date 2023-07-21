@@ -18,5 +18,24 @@ Announcement
 {% if perms.announcement.delete_announcement %}
     <a href="{% url 'announcement_delete' pk=announcement.id %}" class = "btn btn-outline-danger btn-sm"> Удалить </a>
 {% endif %}
+<hr>
+
+<div class="comment-section">
+{% if announcement.response_set.exists %}
+    <h3>Комментарии:</h3>
+    <ul>
+        {% for response in announcement.response_set.all %}
+            <li>{{ response.author }}: {{ response.text }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</div>
+
+<form method="post" action="{% url 'create_response' pk=announcement.pk %}">
+    {% csrf_token %}
+    {{ response_form.as_p }}
+    <button type="button" class="btn btn-outline-success">Отправить комментарий</button>
+</form>
+
 
 {% endblock content %}
