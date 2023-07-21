@@ -1,0 +1,45 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Announcements
+{% endblock title %}
+
+{% block content %}
+<h2>Мои объявления</h2>
+
+{% if private_page %}
+  <ul>
+    {% for announcement in private_page %}
+      <li>
+        <strong>{{ announcement.title }}</strong> ({{ announcement.dateCreation|date:"M d, Y H:i" }}):
+        {{ announcement.text|safe  }}
+        <a href="{% url 'announcement_detail' pk=announcement.pk %}" class="btn btn-outline-primary btn-sm">Подробнее</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>У вас пока нет объявлений.</p>
+{% endif %}
+
+<h2>Отклики к вашим объявлениям</h2>
+
+{% if other_users_responses %}
+  <ul>
+    {% for response in other_users_responses %}
+      <li>
+        <strong>{{ response.announcement.title }}</strong> ({{ response.dateCreation|date:"M d, Y H:i" }}):
+        {{ response.text}}
+        {% if response.accepted %}
+          <span style="color: green;">Принят</span>
+        {% else %}
+          <span style="color: red;">Отклонен</span>
+          <a href="{% url 'accept_response' response.id %}" class="btn btn-success btn-sm">Принять</a>
+        {% endif %}
+        <a href="{% url 'reject_response' response.id %}" class="btn btn-danger btn-sm">Отклонить</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>У вас пока нет откликов на ваши объявления.</p>
+{% endif %}
+{% endblock content %}

@@ -25,7 +25,18 @@ Announcement
     <h3>Комментарии:</h3>
     <ul>
         {% for response in announcement.response_set.all %}
-            <li>{{ response.author }}: {{ response.text }}</li>
+            <li>{{ response.author }} ({{ response.dateCreation|date:"M d, Y H:i" }}):
+            {{ response.text }}
+            {% if user == announcement.author %}
+                {% if not response.accepted %}
+                    <a href="{% url 'accept_response' response.id %}" class="btn btn-success btn-sm">Принять</a>
+                {% endif %}
+                <a href="{% url 'reject_response' response.id %}" class="btn btn-danger btn-sm">Отклонить</a>
+            {% endif %}
+            {% if user == response.author or user == announcement.author %}
+                <a href="{% url 'delete_response' response.id %}" class="btn btn-outline-danger btn-sm">Удалить</a>
+            {% endif %}
+            </li>
         {% endfor %}
     </ul>
 {% endif %}
@@ -34,7 +45,7 @@ Announcement
 <form method="post" action="{% url 'create_response' pk=announcement.pk %}">
     {% csrf_token %}
     {{ response_form.as_p }}
-    <button type="button" class="btn btn-outline-success">Отправить комментарий</button>
+    <button type="submit" class="btn btn-outline-success">Отправить комментарий</button>
 </form>
 
 

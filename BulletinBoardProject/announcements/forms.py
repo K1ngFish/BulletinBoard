@@ -17,7 +17,7 @@ class AnnouncementForm(forms.ModelForm):
                 "text": "Описание не может быть менее 50 символов."
             })
 
-        title = cleaned_data.get("description")
+        title = cleaned_data.get("title")
         if title == text:
             raise ValidationError(
                 "Текст объявления не может быть идентичен заголовку объявления"
