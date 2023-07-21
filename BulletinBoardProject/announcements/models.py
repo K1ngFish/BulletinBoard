@@ -31,7 +31,7 @@ class Announcement(models.Model):
         return f'Объявление: {self.title}'
 
     def get_absolute_url(self):
-        return reverse('announcement_create', args=[str(self.id)])
+        return reverse('announcement_detail', args=[str(self.id)])
 
 class Response(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)

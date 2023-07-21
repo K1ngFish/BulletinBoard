@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import EmailMessage
 from django.contrib import messages
@@ -24,6 +25,7 @@ class AnnouncementsList(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         self.filterset = AnnouncementFilter(self.request.GET, queryset)
+        queryset = self.filterset.qs.order_by('-dateCreation')
         return self.filterset.qs
 
     def get_context_data(self, **kwargs):
@@ -32,11 +34,16 @@ class AnnouncementsList(ListView):
         context['time_now'] = timezone.now()
         return context
 
+
 class AnnouncementDetail(DetailView):
     model = Announcement
     template_name = 'announcement.html'
     content_object_name = 'announcement'
-    # Функция ниже - новая
+
+    @method_decorator(login_required(login_url='login')) # Добавляем декоратор login_required для проверки аутентификации
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['response_form'] = ResponseForm()
@@ -46,6 +53,7 @@ class AnnouncementDetail(DetailView):
         )
         context['user_responses'] = current_user_responses
         return context
+
 
 class AnnouncementCreate(PermissionRequiredMixin, CreateView):
     permission_required = ('announcements.add_announcement',)
@@ -59,6 +67,7 @@ class AnnouncementCreate(PermissionRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
 class AnnouncementUpdate(PermissionRequiredMixin, UpdateView):
     permission_required = ('announcements.update_announcement',)
     model = Announcement
@@ -66,11 +75,13 @@ class AnnouncementUpdate(PermissionRequiredMixin, UpdateView):
     template_name = 'announcement_edit.html'
     success_url = reverse_lazy('announcement_list')
 
+
 class AnnouncementDelete(PermissionRequiredMixin, DeleteView):
     permission_required = ('announcements.delete_announcement',)
     model = Announcement
     template_name = 'announcement_delete.html'
     success_url = reverse_lazy('announcement_list')
+
 
 class SearchResultsView(ListView):
     model = Announcement
@@ -81,7 +92,7 @@ class SearchResultsView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         self.filterset = AnnouncementFilter(self.request.GET, queryset)
-        queryset = queryset.order_by('-date_creation')
+        queryset = self.filterset.qs.order_by('-dateCreation')
         return self.filterset.qs
 
     def get_context_data(self, **kwargs):
@@ -89,6 +100,7 @@ class SearchResultsView(ListView):
         context['filterset'] = self.filterset
         context['time_now'] = datetime.now()
         return context
+
 
 class CreateResponseView(CreateView):
     model = Response
@@ -142,6 +154,7 @@ def accept_response(request, response_id):
     messages.success(request, 'Отклик принят.')
     return redirect('announcement_detail', pk=response.announcement.pk)
 
+
 @login_required
 def reject_response(request, response_id):
     response = get_object_or_404(Response, id=response_id)
@@ -153,6 +166,7 @@ def reject_response(request, response_id):
     messages.success(request, 'Отклик отклонен.')
     return redirect('announcement_detail', pk=response.announcement.pk)
 
+
 @login_required
 def delete_response(request, response_id):
     response = get_object_or_404(Response, id=response_id)
@@ -163,17 +177,19 @@ def delete_response(request, response_id):
         return HttpResponseForbidden("Вы не можете удалять этот отклик.")
     return redirect('announcement_detail', pk=response.announcement.pk)
 
+
 def send_notification_email(response, accepted=True):
     status_text = "принят" if accepted else "отклонен"
     subject = f"Отклик на ваше объявление {response.announcement.title}"
     message = (
-        f"Здравствуйте пользователь {response.author.username}! {response.announcement.author.username}, "
+        f"Здравствуйте, пользователь {response.author.username}! {response.announcement.author.username}, "
         f"автор объявления {response.announcement.title}, принял решение по отклику. Его статус: {status_text}."
     )
     from_email = "mailfortestprojects@yandex.ru"
     to_email = response.author.email
     email = EmailMessage(subject, message, from_email, [to_email])
     email.send()
+
 
 class PrivatePageView(ListView):
     model = Announcement

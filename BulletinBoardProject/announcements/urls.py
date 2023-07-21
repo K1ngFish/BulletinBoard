@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import AnnouncementsList, AnnouncementDetail, \
     AnnouncementCreate, AnnouncementUpdate, AnnouncementDelete, SearchResultsView, CreateResponseView, \
     accept_response, reject_response, delete_response, PrivatePageView

@@ -31,8 +31,11 @@ Announcements
 
     <table class = "text">
         <tr>
-        <td> <p style="text-align: left;"> <a href = "{% url 'announcement_detail' pk=announcement.id %}"> {{ announcement.title }} </a>
-            ({{ announcement.get_category_display }}) </p> </td>
+        <td>
+            <p style="text-align: left;"> <a href = "{% url 'announcement_detail' pk=announcement.id %}">
+                {{ announcement.title }} </a> ({{ announcement.get_category_display }})
+            </p>
+        </td>
         </tr>
     </table>
         <p style="text-align: justify;"> {{ announcement.dateCreation|date:'d.M.Y' }}, {{ announcement.author }} </p>

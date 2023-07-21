@@ -98,11 +98,11 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-# EMAIL_HOST_USER = "mailfortestprojects@yandex.ru"
-EMAIL_HOST_PASSWORD = "TestPassword1997"
+EMAIL_HOST_USER = "mailfortestprojects"
+EMAIL_HOST_PASSWORD = "vbzxxjjfcicsaeqb"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
@@ -174,3 +174,9 @@ STATICFILES_DIRS = [
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_UPLOAD_PATH = 'media/'
 CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+
+CELERY_BROKER_URL = 'redis://default:GVnYZdsn3mOG8T9qBd6BuLwvFtZbtu7X@redis-12268.c135.eu-central-1-1.ec2.cloud.redislabs.com:12268'
+CELERY_RESULT_BACKEND = 'redis://default:GVnYZdsn3mOG8T9qBd6BuLwvFtZbtu7X@redis-12268.c135.eu-central-1-1.ec2.cloud.redislabs.com:12268'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
