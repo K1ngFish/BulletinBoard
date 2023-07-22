@@ -7,6 +7,8 @@
     {% csrf_token %}
     {{ form.media }}
     {{ form.as_p }}
-    <input type="submit" value="Отправить" />
+        <label class="custom-file-label" for="id_video">Загрузить видео</label>
+        <input type="file" class="custom-file-input" name="video" id="id_video">
+    <button type="submit" class="btn btn-outline-primary">Отправить</button>
 </form>
 {% endblock content %}

@@ -22,6 +22,7 @@ class Announcement(models.Model):
     dateCreation = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=256, verbose_name = 'Заголовок')
     text = RichTextField(blank='True', null='True', verbose_name = 'Текст')
+    video = models.FileField(upload_to='videos/', verbose_name='Видео', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Объявление'
